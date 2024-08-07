@@ -6,3 +6,12 @@ export { GraphQLExceptionFilter } from './core/filters';
 export { GraphQLErrorsModule } from './graphql-errors.module';
 
 export type { GraphQLErrorType, GraphQLResultType } from './core/factories';
+export type {
+  EnumLike,
+  EnumLikeValue,
+  ExtraBase,
+  ExtraSanitized,
+  GraphQLExceptionClass,
+  NotEmptyOrVoid,
+  PlainException,
+} from './core/types';
