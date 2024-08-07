@@ -5,6 +5,7 @@ export default defineConfig({
   dts: true,
   entry: ['src/index.ts'],
   format: 'cjs',
+  minify: true,
   outDir: 'dist',
   platform: 'node',
   skipNodeModulesBundle: true,
