@@ -1,5 +1,12 @@
 
 
+## [1.0.3](https://github.com/Girilloid/nestjs-graphql-errors/compare/v1.0.2...v1.0.3) (2024-08-07)
+
+
+### Bug Fixes
+
+* Preserve jsdoc comments in d.ts ([5711b49](https://github.com/Girilloid/nestjs-graphql-errors/commit/5711b498561642fe259a6d1f96d92285906c25be))
+
 ## [1.0.2](https://github.com/Girilloid/nestjs-graphql-errors/compare/v1.0.1...v1.0.2) (2024-08-07)
 
 
