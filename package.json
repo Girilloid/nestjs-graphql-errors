@@ -26,7 +26,9 @@
     "test:unit": "run-s build test:unit:0",
     "test:unit:0": "jest --config ./jest.config.ts",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "release-it",
+    "release:preview": "release-it --dry-run"
   },
   "devDependencies": {
     "@apollo/server": "4.10.5",
