@@ -1,7 +1,6 @@
 /* eslint-disable max-classes-per-file */
 
 import { ObjectType } from '@nestjs/graphql';
-import type { GqlTypeReference } from '@nestjs/graphql';
 
 import { graphqlErrorUnionFactory } from './graphql-error-union.factory';
 import { GraphQLError } from './graphql-error.factory';
@@ -40,7 +39,7 @@ describe('graphqlErrorUnionFactory', () => {
   });
 
   it('returns error union', () => {
-    const result: GqlTypeReference = graphqlErrorUnionFactory('Union', [ErrorFirst, ErrorSecond]);
+    const result = graphqlErrorUnionFactory('Union', [ErrorFirst, ErrorSecond]);
 
     expect(result).toBeTruthy();
   });

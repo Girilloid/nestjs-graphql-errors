@@ -1,16 +1,14 @@
 {
   "name": "nestjs-graphql-errors",
   "version": "1.0.0",
-  "description": "",
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "description": "A set of utilities to build a code-first, type-safe GraphQL API with NestJS using error as data approach",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
   "exports": {
-    "import": "./dist/index.mjs",
     "require": "./dist/index.js"
   },
   "scripts": {
@@ -78,10 +76,25 @@
     "@nestjs/core": "^8.0.0 || ^9.0.0 || ^10.0.0",
     "@nestjs/graphql": "^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 | ^12.0.0"
   },
+  "keywords": [
+    "Error",
+    "Exception",
+    "GraphQL",
+    "Nest",
+    "NestJS"
+  ],
+  "author": "girilloid (https://github.com/Girilloid)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Girilloid/nestjs-graphql-errors.git"
   },
+  "bugs": {
+    "url": "https://github.com/Girilloid/nestjs-graphql-errors/issues"
+  },
+  "homepage": "https://github.com/Girilloid/nestjs-graphql-errors#readme",
   "license": "MIT",
+  "engines": {
+    "node": ">= 16"
+  },
   "packageManager": "pnpm@9.6.0"
 }

@@ -148,7 +148,7 @@ describe('ItemsService', () => {
     it('throws ItemNotFoundException when called with not existing item id', async () => {
       const itemId = '3';
 
-      let caughtException: BaseGraphQLException<ItemNotFoundErrorCode, ItemNotFoundError>;
+      let caughtException: BaseGraphQLException<typeof ItemNotFoundErrorCode, ItemNotFoundError>;
 
       try {
         await itemsService.findOneItemById(itemId);

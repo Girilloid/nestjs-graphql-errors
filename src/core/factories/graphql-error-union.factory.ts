@@ -3,17 +3,17 @@ import { createUnionType } from '@nestjs/graphql';
 import type { GqlTypeReference, Union } from '@nestjs/graphql';
 
 /**
- * Factory to create GraphQL union from array of GraphQLErrors.
+ * Factory to create a GraphQL union from an array of GraphQLErrors.
  *
  * @example
  * ```ts
  * const Union = graphqlErrorUnionFactory('Union', [GraphQLErrorOne, GraphQLErrorTwo]);
  * ```
  *
- * @param {string} name Union name for GraphQL schema.
- * @param {Type<GqlTypeReference>[]} types Array of GraphQLErrors.
+ * @param name Union name for GraphQL schema.
+ * @param types An array of GraphQLErrors.
  *
- * @returns {Type<Union>} GraphQL union.
+ * @returns GraphQL union.
  *
  * @public
  */
@@ -23,6 +23,7 @@ export const graphqlErrorUnionFactory = (
 ): Type<Union<readonly Type<GqlTypeReference>[]>> => {
   return createUnionType({
     name,
+    /* istanbul ignore next */
     resolveType(value) {
       const { __typename } = value;
 
@@ -30,6 +31,6 @@ export const graphqlErrorUnionFactory = (
         return type.name === __typename;
       });
     },
-    types: () => types,
+    types: /* istanbul ignore next */ () => types,
   }) as Type<Union<readonly Type<GqlTypeReference>[]>>;
 };

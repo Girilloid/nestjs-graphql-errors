@@ -1,1 +1,1 @@
-export { BaseGraphQLError } from './base-graphql-error.error';
+export { BaseGraphQLError } from './base-graphql.error';

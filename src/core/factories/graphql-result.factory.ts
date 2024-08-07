@@ -4,20 +4,20 @@ import type { GqlTypeReference } from '@nestjs/graphql';
 
 type InferTypeFromType<T> = T extends Type<infer P> ? P : T;
 
-type InferTypeFromArray<T> = T extends (infer P)[] ? InferTypeFromType<P>[] : InferTypeFromType<T>;
+type InferTypeFromArray<T> = T extends [infer P] ? InferTypeFromType<P>[] : InferTypeFromType<T>;
 
 export interface GraphQLResultType<
   Data extends GqlTypeReference,
   Error extends GqlTypeReference,
-  DataUnion extends Data | readonly Data[],
-  ErrorUnion extends Error | readonly Error[],
+  DataUnion extends Data | readonly [Data],
+  ErrorUnion extends Error | readonly [Error],
 > {
   readonly data?: InferTypeFromArray<DataUnion>;
   readonly error?: InferTypeFromArray<ErrorUnion>;
 }
 
 /**
- * Base class to create GraphQLResult from data and error references.
+ * Base class for creating GraphQLResult from data and error references.
  *
  * @example
  * ```ts
@@ -25,36 +25,31 @@ export interface GraphQLResultType<
  * class SomeGraphQLResult extends GraphQLResult(GraphQLData, GraphQLError);
  * ```
  *
- * @template Data
- * @template Error
- * @template DataUnion
- * @template ErrorUnion
+ * @param dataClassRef GraphQL data class reference.
+ * @param errorClassRef GraphQLError class reference.
  *
- * @param {GqlTypeReference | GqlTypeReference[]} dataClassRef GraphQL data class reference.
- * @param {GqlTypeReference | GqlTypeReference[]} errorClassRef GraphQLError class reference.
- *
- * @returns {GqlTypeReference} GraphQLResult.
+ * @returns Subclass of GraphQLResult.
  *
  * @public
  */
 export const GraphQLResult = <
   Data extends GqlTypeReference,
   Error extends GqlTypeReference,
-  DataUnion extends Data | readonly Data[],
-  ErrorUnion extends Error | readonly Error[],
+  DataUnion extends Data | readonly [Data],
+  ErrorUnion extends Error | readonly [Error],
 >(
   dataClassRef: DataUnion,
   errorClassRef: ErrorUnion,
 ): Type<GraphQLResultType<Data, Error, DataUnion, ErrorUnion>> => {
   @ObjectType({ isAbstract: true })
   class _GraphQLResult {
-    @Field(() => dataClassRef as GqlTypeReference, {
+    @Field(/* istanbul ignore next */ () => dataClassRef as GqlTypeReference, {
       name: 'data',
       nullable: true,
     })
     public readonly data?: InferTypeFromArray<DataUnion>;
 
-    @Field(() => errorClassRef as GqlTypeReference, {
+    @Field(/* istanbul ignore next */ () => errorClassRef as GqlTypeReference, {
       name: 'error',
       nullable: true,
     })

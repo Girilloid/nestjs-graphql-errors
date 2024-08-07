@@ -85,7 +85,7 @@ describe('ItemsResolver', () => {
           new ItemNotFoundException(ItemNotFoundErrorCode.ITEM_NOT_FOUND, 'Item not found', { itemId }),
         );
 
-      let caughtException: BaseGraphQLException<ItemNotFoundErrorCode, ItemNotFoundError>;
+      let caughtException: BaseGraphQLException<typeof ItemNotFoundErrorCode, ItemNotFoundError>;
 
       try {
         await itemsResolver.item({ itemId });

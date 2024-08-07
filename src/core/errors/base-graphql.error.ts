@@ -1,7 +1,7 @@
 import { Field, InterfaceType } from '@nestjs/graphql';
 
 /**
- * Base class for all the GraphQLError subclasses. Defines GraphQL interface.
+ * Base class for all GraphQLError subclasses. Defines the GraphQL interface.
  *
  * @example
  * ```ts
@@ -16,9 +16,9 @@ import { Field, InterfaceType } from '@nestjs/graphql';
 @InterfaceType({ isAbstract: true })
 export abstract class BaseGraphQLError {
   /**
-   * Nullable message for all the GraphQLError subclasses.
+   * A nullable message for all GraphQLError subclasses.
    *
-   * @type {?string}
+   * @public
    */
   @Field(() => String, {
     name: 'message',

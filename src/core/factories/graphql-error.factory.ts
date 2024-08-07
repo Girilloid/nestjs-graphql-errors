@@ -3,13 +3,14 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import type { GqlTypeReference } from '@nestjs/graphql';
 
 import { BaseGraphQLError } from '../errors';
+import { EnumLike } from '../types';
 
-export interface GraphQLErrorType<T extends object | string> {
+export interface GraphQLErrorType<T extends EnumLike | string> {
   readonly code: T;
   readonly message?: string;
 }
 
-const getClassRef = <T extends object | string>(classRef?: T): GqlTypeReference => {
+export const getClassRef = <T extends EnumLike | string>(classRef?: T): GqlTypeReference => {
   if (!classRef || typeof classRef === 'string') {
     return String;
   }
@@ -18,7 +19,7 @@ const getClassRef = <T extends object | string>(classRef?: T): GqlTypeReference 
 };
 
 /**
- * Base class to create GraphQLError.
+ * Base class for creating GraphQLError.
  *
  * @example
  * ```ts
@@ -31,20 +32,19 @@ const getClassRef = <T extends object | string>(classRef?: T): GqlTypeReference 
  *
  * @template T
  *
- * @param {T=} classRef Enum or string to provide `code` type reference.
+ * @param classRef An enum or string to specify a reference to the `code` type.
  *
- * @returns {GqlTypeReference} GraphQLError.
+ * @returns Subclass of GraphQLError.
  *
- * @implements {BaseGraphQLError}
  * @public
  */
-export const GraphQLError = <T extends object | string>(classRef?: T): Type<GraphQLErrorType<T>> => {
+export const GraphQLError = <T extends EnumLike | string>(classRef?: T): Type<GraphQLErrorType<T>> => {
   @ObjectType({
-    implements: () => BaseGraphQLError,
+    implements: /* istanbul ignore next */ () => BaseGraphQLError,
     isAbstract: true,
   })
   class _GraphQLError implements BaseGraphQLError {
-    @Field(() => getClassRef(classRef), {
+    @Field(/* istanbul ignore next */ () => getClassRef(classRef), {
       name: 'code',
       nullable: false,
     })

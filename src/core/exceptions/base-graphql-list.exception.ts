@@ -1,9 +1,11 @@
-import type { ExtraBase, PlainException } from '../types';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import type { EnumLike, PlainException } from '../types';
 
 import type { BaseGraphQLException } from './base-graphql.exception';
 
 /**
- * Base class to throw an array of GraphQLExceptions.
+ * Base class to throw an array of the GraphQLExceptions.
  *
  * @example
  * ```ts
@@ -11,40 +13,37 @@ import type { BaseGraphQLException } from './base-graphql.exception';
  * ```
  *
  * @class
- * @implements {Error}
  * @public
  */
 export class BaseGraphQLListException extends Error {
   /**
    * Array of GraphQLExceptions.
    *
-   * @type {BaseGraphQLException[]}
-   *
    * @public
    */
-  public readonly errors: readonly BaseGraphQLException<string, ExtraBase>[];
+  public readonly errors: readonly BaseGraphQLException<EnumLike | string, any>[];
 
   /**
-   * Creates an instants of BaseGraphQLListException.
+   * Creates an instance of BaseGraphQLListException.
    *
    * @example
    * ```ts
    * new BaseGraphQLListException(new SomeGraphQLException('SOME_CODE', 'Some message'));
    * ```
    *
-   * @param {...BaseGraphQLException[]} errors Array of GraphQLExceptions.
+   * @param errors An array of GraphQLExceptions.
    *
    * @constructor
    * @public
    */
-  constructor(...errors: readonly BaseGraphQLException<string, ExtraBase>[]) {
+  constructor(...errors: readonly BaseGraphQLException<EnumLike | string, any>[]) {
     super();
 
     this.errors = errors;
   }
 
   /**
-   * Method to retrieve plain representation of GraphQLExceptions.
+   * Method for getting a simple representation of GraphQLExceptions.
    *
    * @example
    * ```ts
@@ -52,11 +51,11 @@ export class BaseGraphQLListException extends Error {
    *   new BaseGraphQLListException(new SomeGraphQLException('SOME_CODE', 'Some message')).toPlain();
    * ```
    *
-   * @returns Plain representation of GraphQLExceptions.
+   * @returns Simple representation of GraphQLExceptions.
    *
    * @public
    */
-  public toPlain(): PlainException<string, ExtraBase>[] {
+  public toPlain(): PlainException<EnumLike | string, any>[] {
     return this.errors.map((error) => {
       return error.toPlain();
     });

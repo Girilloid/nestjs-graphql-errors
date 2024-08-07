@@ -4,7 +4,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { GraphQLExceptionFilter } from './core/filters';
 
 /**
- * GraphQLErrors module. Provides global GraphQLException filter.
+ * GraphQLErrors module. Provides a global GraphQLException filter.
  *
  * @example
  * ```ts

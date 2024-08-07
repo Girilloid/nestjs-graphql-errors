@@ -2,7 +2,7 @@
 
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
-import { GraphQLError } from './graphql-error.factory';
+import { getClassRef, GraphQLError } from './graphql-error.factory';
 
 enum ErrorCode {
   CODE,
@@ -58,5 +58,25 @@ describe('GraphQLError', () => {
     const error = new ErrorFirst();
 
     expect(error).toBeTruthy();
+  });
+});
+
+describe('getClassRef', () => {
+  it('returns String classRef for missing input classRef', () => {
+    const result = getClassRef();
+
+    expect(result).toEqual(String);
+  });
+
+  it('returns String classRef for string input classRef', () => {
+    const result = getClassRef('code');
+
+    expect(result).toEqual(String);
+  });
+
+  it('returns enum classRef for enum input classRef', () => {
+    const result = getClassRef(ErrorCode);
+
+    expect(result).toEqual(ErrorCode);
   });
 });

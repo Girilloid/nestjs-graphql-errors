@@ -22,24 +22,24 @@ class Error {
   public readonly id: string;
 }
 
-// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or GqlTypeReference[]
+// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or [GqlTypeReference]
 @ObjectType('ResultFirst')
 // @ts-expect-error
 class _ResultFirst extends GraphQLResult(1, 1) {}
 
-// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or GqlTypeReference[]
+// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or [GqlTypeReference]
 @ObjectType('ResultSecond')
 class ResultSecond extends GraphQLResult(Dto, Error) {}
 
-// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or GqlTypeReference[]
+// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or [GqlTypeReference]
 @ObjectType('ResultThird')
 class ResultThird extends GraphQLResult([Dto], Error) {}
 
-// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or GqlTypeReference[]
+// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or [GqlTypeReference]
 @ObjectType('ResultFourth')
 class ResultFourth extends GraphQLResult(Dto, [Error]) {}
 
-// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or GqlTypeReference[]
+// It expects `dataClassRef` and `errorClassRef` to be GqlTypeReference or [GqlTypeReference]
 @ObjectType('ResultFifth')
 class ResultFifth extends GraphQLResult([Dto], [Error]) {}
 

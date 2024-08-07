@@ -1,25 +1,19 @@
-import type { ExtraBase, ExtraSanitized, NotEmptyOrVoid, PlainException } from '../types';
+import type { EnumLike, EnumLikeValue, ExtraBase, ExtraSanitized, NotEmptyOrVoid, PlainException } from '../types';
 
 /**
- * Base class for all the GraphQLException subclasses.
+ * Base class for all GraphQLException subclasses.
  *
  * @example
  * ```ts
  * new BaseGraphQLException('CODE', 'Message', { key: 'value' });
  * ```
  *
- * @template ErrorCode
- * @template Extra
- *
  * @class
- * @implements {Error}
  * @public
  */
-export class BaseGraphQLException<ErrorCode extends number | string, Extra extends ExtraBase> extends Error {
+export class BaseGraphQLException<ErrorCode extends EnumLike | string, Extra extends ExtraBase> extends Error {
   /**
    * GraphQL __typename.
-   *
-   * @type {string}
    *
    * @public
    */
@@ -28,16 +22,12 @@ export class BaseGraphQLException<ErrorCode extends number | string, Extra exten
   /**
    * Exception code.
    *
-   * @type {ErrorCode}
-   *
    * @public
    */
-  public readonly code: ErrorCode;
+  public readonly code: EnumLikeValue<ErrorCode>;
 
   /**
    * Exception extra fields.
-   *
-   * @type {NotEmptyOrVoid<ExtraSanitized<Extra>>}
    *
    * @public
    */
@@ -46,29 +36,32 @@ export class BaseGraphQLException<ErrorCode extends number | string, Extra exten
   /**
    * Exception message.
    *
-   * @type {?string}
-   *
    * @public
    */
   public readonly message: string;
 
   /**
-   * Create an instance of BaseGraphQLException.
+   * Creates an instance of BaseGraphQLException.
    *
    * @example
    * ```ts
    * new BaseGraphQLException('CODE', 'Message', { key: 'value' });
    * ```
    *
-   * @param {string} __typename GraphQL __typename.
-   * @param {ErrorCode} code Exception code.
-   * @param {?string} message Exception message.
-   * @param {NotEmptyOrVoid<ExtraSanitized<Extra>>} extra Exception extra fields
+   * @param __typename GraphQL __typename.
+   * @param code Exception code.
+   * @param message Exception message.
+   * @param extra Exception extra fields
    *
    * @constructor
    * @public
    */
-  constructor(__typename: string, code: ErrorCode, message: string, extra: NotEmptyOrVoid<ExtraSanitized<Extra>>) {
+  constructor(
+    __typename: string,
+    code: EnumLikeValue<ErrorCode>,
+    message: string,
+    extra: NotEmptyOrVoid<ExtraSanitized<Extra>>,
+  ) {
     super();
 
     this.__typename = __typename;
@@ -79,14 +72,14 @@ export class BaseGraphQLException<ErrorCode extends number | string, Extra exten
   }
 
   /**
-   * Method to retrieve plain representation of GraphQLException.
+   * Method for getting a simple representation of GraphQLExceptions.
    *
    * @example
    * ```ts
    * const plainSomeGraphQLException = new BaseGraphQLException('CODE', 'Message', { key: 'value' }).toPlain();
    * ```
    *
-   * @returns Plain representation of GraphQLExceptions.
+   * @returns Simple representation of GraphQLException.
    *
    * @public
    */

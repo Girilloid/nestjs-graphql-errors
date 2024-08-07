@@ -1,3 +1,4 @@
+export type * from './enum-like.interface';
 export type * from './extra-base.interface';
 export type * from './extra-sanitized.type';
 export type * from './graphql-exception-class.interface';

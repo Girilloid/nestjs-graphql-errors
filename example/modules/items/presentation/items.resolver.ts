@@ -1,16 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { Args, Query } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 
 import { ItemsService } from '../application';
 
 import { ItemResult, ItemsResult } from './result';
 import { ItemInput, ItemsInput } from './input';
 
-@Injectable()
+@Resolver()
 export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
-  @Query(() => ItemResult, {
+  @Query(/* istanbul ignore next */ () => ItemResult, {
     name: 'item',
     nullable: false,
   })
@@ -22,7 +21,7 @@ export class ItemsResolver {
     return { data: item };
   }
 
-  @Query(() => ItemsResult, {
+  @Query(/* istanbul ignore next */ () => ItemsResult, {
     name: 'items',
     nullable: false,
   })

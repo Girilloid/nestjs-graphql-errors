@@ -2,14 +2,16 @@ import { Catch } from '@nestjs/common';
 import type { GqlExceptionFilter } from '@nestjs/graphql';
 
 import { BaseGraphQLException, BaseGraphQLListException } from '../exceptions';
-import type { ExtraBase, PlainException } from '../types';
+import type { EnumLike, ExtraBase, PlainException } from '../types';
 
 export interface GraphQLExceptionFilterResult {
-  readonly error: PlainException<string, ExtraBase> | readonly PlainException<string, ExtraBase>[];
+  readonly error:
+    | PlainException<EnumLike | string, ExtraBase>
+    | readonly PlainException<EnumLike | string, ExtraBase>[];
 }
 
 /**
- * GraphQLException filter. Normalizes and builds GraphQL response.
+ * GraphQLException filter. Normalizes and generates GraphQL response.
  *
  * @example
  * ```ts
@@ -17,20 +19,19 @@ export interface GraphQLExceptionFilterResult {
  * ```
  *
  * @class
- * @implements {GqlExceptionFilter}
  * @public
  */
 @Catch(BaseGraphQLException, BaseGraphQLListException)
 export class GraphQLExceptionFilter implements GqlExceptionFilter {
   /**
-   * Processes caught GraphQLException.
+   * Method for handling a caught GraphQLException subclass.
    *
-   * @param {BaseGraphQLException | BaseGraphQLListException} exception Caught GraphQLException.
+   * @param exception Caught GraphQLException subclass.
    *
-   * @returns {PlainException | PlainException[]} Normalized GraphQL response.
+   * @returns Normalized GraphQL response.
    */
   public catch(
-    exception: BaseGraphQLException<string, ExtraBase> | BaseGraphQLListException,
+    exception: BaseGraphQLException<EnumLike | string, ExtraBase> | BaseGraphQLListException,
   ): GraphQLExceptionFilterResult {
     return {
       error: exception.toPlain(),
