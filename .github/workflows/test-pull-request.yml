@@ -1,0 +1,33 @@
+name: Test nestjs-graphql-errors pull request
+
+on:
+  pull_request:
+
+jobs:
+  test-pull-request:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [16.*, 18.*, 20.*, 22.*]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup NodeJS and PNPM
+        uses: ./.github/actions/setup
+        with:
+          node-version: ${{ matrix.version }}
+          pnpm-version: 9.6.0
+
+      - name: Lint package
+        run: pnpm lint
+
+      - name: Build package
+        run: pnpm build
+
+      - name: Test package
+        uses: ./.github/actions/test
+
+      - name: Check package coverage
+        run: pnpm test:coverage:0

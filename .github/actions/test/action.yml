@@ -1,0 +1,13 @@
+name: Test package
+description: Tests package
+
+runs:
+  using: composite
+  steps:
+    - name: Unit tests
+      run: pnpm test:unit:0
+      shell: bash
+
+    - name: E2E Tests
+      run: pnpm test:e2e:0
+      shell: bash

@@ -1,0 +1,29 @@
+name: Test nestjs-graphql-errors main branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-main:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [16.*, 18.*, 20.*, 22.*]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup NodeJS and PNPM
+        uses: ./.github/actions/setup
+        with:
+          node-version: ${{ matrix.version }}
+          pnpm-version: 9.6.0
+
+      - name: Build package
+        run: pnpm build
+
+      - name: Test package
+        uses: ./.github/actions/test
