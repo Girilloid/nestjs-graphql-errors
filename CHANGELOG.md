@@ -1,5 +1,12 @@
 
 
+## [1.0.2](https://github.com/Girilloid/nestjs-graphql-errors/compare/v1.0.1...v1.0.2) (2024-08-07)
+
+
+### Bug Fixes
+
+* Export types ([4d7cd99](https://github.com/Girilloid/nestjs-graphql-errors/commit/4d7cd994c99b5e9390537fdc5988cc1031aa0297))
+
 ## [1.0.1](https://github.com/Girilloid/nestjs-graphql-errors/compare/v1.0.0...v1.0.1) (2024-08-07)
 
 
