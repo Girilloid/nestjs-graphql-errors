@@ -1,6 +1,6 @@
 {
   "name": "nestjs-graphql-errors",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A set of utilities to build a code-first, type-safe GraphQL API with NestJS using error as data approach",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
