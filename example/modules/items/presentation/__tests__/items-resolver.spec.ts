@@ -104,6 +104,44 @@ describe('ItemsResolver', () => {
     });
   });
 
+  describe('itemWithMultipleErrors', () => {
+    it('throws BaseGraphQLListException with ItemNotFoundException', async () => {
+      const itemId = '1';
+
+      when(itemsService.itemWithMultipleExceptions)
+        .calledWith(itemId)
+        .mockRejectedValue(
+          new BaseGraphQLListException(
+            new ItemNotFoundException(ItemNotFoundErrorCode.ITEM_NOT_FOUND, 'Item not found', { itemId }),
+            new ItemNotFoundException(ItemNotFoundErrorCode.ITEM_NOT_FOUND, 'Item not found', { itemId }),
+          ),
+        );
+
+      let caughtException: BaseGraphQLListException;
+
+      try {
+        await itemsResolver.itemWithMultipleErrors({ itemId });
+      } catch (exception) {
+        caughtException = exception;
+      }
+
+      expect(caughtException).toBeInstanceOf(BaseGraphQLListException);
+      expect(caughtException.errors).toBeInstanceOf(Array);
+      expect(caughtException.errors.length).toEqual(2);
+
+      const exception = caughtException.errors[0] as BaseGraphQLException<string, ItemNotFoundError>;
+
+      expect(exception).toBeInstanceOf(ItemNotFoundException);
+
+      expect(exception.code).toEqual(ItemNotFoundErrorCode.ITEM_NOT_FOUND);
+      expect(exception.message).toEqual('Item not found');
+      expect(exception.extra.itemId).toEqual(itemId);
+
+      expect(itemsService.itemWithMultipleExceptions).toHaveBeenCalledTimes(1);
+      expect(itemsService.itemWithMultipleExceptions).toHaveBeenCalledWith(itemId);
+    });
+  });
+
   describe('items', () => {
     it('returns list of items when called with existing and not protected item id', async () => {
       const itemIds = ['1'];
@@ -241,6 +279,35 @@ describe('ItemsResolver', () => {
       expect(itemNotFoundException.code).toEqual(ItemNotFoundErrorCode.ITEM_NOT_FOUND);
       expect(itemNotFoundException.message).toEqual('Item not found');
       expect(itemNotFoundException.extra.itemId).toEqual(itemIds[1]);
+    });
+  });
+
+  describe('itemsWithSingleException', () => {
+    it('throws ItemNotFoundException', async () => {
+      const itemIds = ['1'];
+
+      when(itemsService.itemsWithSingleException)
+        .calledWith(itemIds)
+        .mockRejectedValue(
+          new ItemNotFoundException(ItemNotFoundErrorCode.ITEM_NOT_FOUND, 'Item not found', { itemId: itemIds[0] }),
+        );
+
+      let caughtException: BaseGraphQLException<typeof ItemNotFoundErrorCode, ItemNotFoundError>;
+
+      try {
+        await itemsResolver.itemsWithSingleError({ itemIds });
+      } catch (exception) {
+        caughtException = exception;
+      }
+
+      expect(caughtException).toBeInstanceOf(ItemNotFoundException);
+
+      expect(caughtException.code).toEqual(ItemNotFoundErrorCode.ITEM_NOT_FOUND);
+      expect(caughtException.message).toEqual('Item not found');
+      expect(caughtException.extra.itemId).toEqual(itemIds[0]);
+
+      expect(itemsService.itemsWithSingleException).toHaveBeenCalledTimes(1);
+      expect(itemsService.itemsWithSingleException).toHaveBeenCalledWith(itemIds);
     });
   });
 });

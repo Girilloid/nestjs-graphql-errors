@@ -67,4 +67,17 @@ export class ItemsService {
 
     return Promise.resolve(item);
   }
+
+  public itemWithMultipleExceptions(itemId: string): Promise<void> {
+    throw new BaseGraphQLListException(
+      new ItemNotFoundException(ItemNotFoundErrorCode.ITEM_NOT_FOUND, 'Item not found', { itemId }),
+      new ItemNotFoundException(ItemNotFoundErrorCode.ITEM_NOT_FOUND, 'Item not found', { itemId }),
+    );
+  }
+
+  public itemsWithSingleException(itemIds: readonly string[]): Promise<void> {
+    const [itemId] = itemIds;
+
+    throw new ItemNotFoundException(ItemNotFoundErrorCode.ITEM_NOT_FOUND, 'Item not found', { itemId });
+  }
 }

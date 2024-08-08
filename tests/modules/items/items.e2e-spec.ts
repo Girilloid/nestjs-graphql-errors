@@ -108,6 +108,58 @@ describe('Items GraphQL', () => {
     });
   });
 
+  describe('itemWithMultipleErrors query', () => {
+    const itemWithMultipleErrorsQuery = `
+      query ($input: ItemInput!) {
+        itemWithMultipleErrors(input: $input) {
+          data {
+            id
+            protected
+          }
+          error {
+            ... on ItemNotFoundError {
+              itemNotFoundErrorCode: code
+              itemId
+              message
+            }
+            ... on ItemProtectedError {
+              itemProtectedErrorCode: code
+              itemId
+              message
+            }
+          }
+        }
+      }
+    `;
+
+    it('responds with ItemNotFoundError', () => {
+      const itemId = '1';
+
+      return request(app.getHttpServer())
+        .post('/graphql')
+        .send({
+          query: itemWithMultipleErrorsQuery,
+          variables: {
+            input: {
+              itemId,
+            },
+          },
+        })
+        .expect(HttpStatus.OK)
+        .expect((response) => {
+          const payload = response.body.data.itemWithMultipleErrors;
+
+          expect(payload.data).toBeNull();
+          expect(payload.error).not.toBeNull();
+
+          expect(payload.error.itemProtectedErrorCode).toBeUndefined();
+          expect(payload.error.itemNotFoundErrorCode).toEqual('ITEM_NOT_FOUND');
+          expect(payload.error.message).toEqual('Item not found');
+          expect(payload.error.itemId).toEqual(itemId);
+        });
+    });
+  });
+
   describe('items query', () => {
     const itemsQuery = `
       query ($input: ItemsInput!) {
@@ -260,6 +312,63 @@ describe('Items GraphQL', () => {
           expect(itemNotFoundError.itemNotFoundErrorCode).toEqual('ITEM_NOT_FOUND');
           expect(itemNotFoundError.message).toEqual('Item not found');
           expect(itemNotFoundError.itemId).toEqual(itemIds[1]);
+        });
+    });
+  });
+
+  describe('itemsWithSingleError query', () => {
+    const itemsWithSingleErrorQuery = `
+      query ($input: ItemsInput!) {
+        itemsWithSingleError(input: $input) {
+          data {
+            id
+            protected
+          }
+          error {
+            ... on ItemNotFoundError {
+              itemNotFoundErrorCode: code
+              itemId
+              message
+            }
+            ... on ItemProtectedError {
+              itemProtectedErrorCode: code
+              itemId
+              message
+            }
+          }
+        }
+      }
+    `;
+
+    it('responds with ItemNotFoundError', () => {
+      const itemIds = ['1'];
+
+      return request(app.getHttpServer())
+        .post('/graphql')
+        .send({
+          query: itemsWithSingleErrorQuery,
+          variables: {
+            input: {
+              itemIds,
+            },
+          },
+        })
+        .expect(HttpStatus.OK)
+        .expect((response) => {
+          const payload = response.body.data.itemsWithSingleError;
+
+          expect(payload.data).toBeNull();
+          expect(payload.error).not.toBeNull();
+
+          expect(payload.error).toBeInstanceOf(Array);
+          expect(payload.error.length).toEqual(1);
+
+          const [error] = payload.error;
+
+          expect(error.itemProtectedErrorCode).toBeUndefined();
+          expect(error.itemNotFoundErrorCode).toEqual('ITEM_NOT_FOUND');
+          expect(error.message).toEqual('Item not found');
+          expect(error.itemId).toEqual(itemIds[0]);
         });
     });
   });
