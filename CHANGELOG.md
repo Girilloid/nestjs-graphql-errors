@@ -1,5 +1,12 @@
 
 
+## [1.0.4](https://github.com/Girilloid/nestjs-graphql-errors/compare/v1.0.3...v1.0.4) (2024-08-08)
+
+
+### Bug Fixes
+
+* Correctly handle single exceptions for multiple errors in schema and vice versa ([bafa38b](https://github.com/Girilloid/nestjs-graphql-errors/commit/bafa38b37f66d928e2e237617799609b22d35623))
+
 ## [1.0.3](https://github.com/Girilloid/nestjs-graphql-errors/compare/v1.0.2...v1.0.3) (2024-08-07)
 
 
